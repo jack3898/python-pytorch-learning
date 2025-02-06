@@ -1,5 +1,7 @@
 import numpy as np
 import torch
+from torch import Tensor
+
 
 # This is a simple model that multiplies the input by a weight
 # and tries to predict the expected output. As each epoch passes, 
@@ -14,13 +16,13 @@ def from_scratch():
 
     def forward(input):
         return weight * input
-    
+
     def loss(expected, prediction):
-        return ((prediction-expected) ** 2).mean()
+        return ((prediction - expected) ** 2).mean()
 
     def gradient(input, expected, prediction):
         return np.dot(2 * input, prediction - expected).mean()
-    
+
     print("Initial weight: ", weight)
     print("Initial prediction: ", forward(input_arr))
 
@@ -36,7 +38,7 @@ def from_scratch():
 
         if epoch % 2 == 0:
             print(f"Epoch: {epoch}, Loss: {loss_val}, Weight: {weight}")
- 
+
     print("Final weight: ", weight)
     print("Final prediction: ", forward(input_arr))
 
@@ -47,11 +49,11 @@ def from_pytorch():
 
     weight = torch.tensor(0.0, dtype=torch.float32, requires_grad=True)
 
-    def forward(input):
+    def forward(input: Tensor):
         return weight * input
 
     def loss(expected, prediction):
-        return ((prediction-expected) ** 2).mean()
+        return ((prediction - expected) ** 2).mean()
 
     print("Initial weight: ", weight)
     print("Initial prediction: ", weight * input_tensor)
@@ -62,7 +64,7 @@ def from_pytorch():
     for epoch in range(epochs):
         prediction = forward(input_tensor)
         loss_val = loss(expected_tensor, prediction)
-        
+
         loss_val.backward()
 
         with torch.no_grad():
@@ -72,7 +74,7 @@ def from_pytorch():
 
         if epoch % 2 == 0:
             print(f"Epoch: {epoch}, Loss: {loss_val}, Weight: {weight}")
- 
+
     print("Final weight: ", weight)
     print("Final prediction: ", forward(input_tensor))
 

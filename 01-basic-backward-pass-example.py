@@ -16,19 +16,20 @@ def from_pytorch():
 
 
 def from_scratch():
-    input = 1
+    value = 1
     expected = 2
     weight = 1.0
 
-    prediction = weight * input
+    prediction = weight * value
     loss = (prediction - expected) ** 2
 
     print(loss)
 
     # Compute the gradient
-    backward_pass_grad = 2 * (prediction - expected) * input
+    backward_pass_grad = 2 * (prediction - expected) * value
 
     print(backward_pass_grad)
+
 
 from_pytorch()
 from_scratch()
